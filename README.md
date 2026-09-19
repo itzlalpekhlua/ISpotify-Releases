@@ -20,7 +20,17 @@ Install the latest release and add iSpotify to your desktop application menu:
 curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/install.sh | bash
 ```
 
-This installs only for the current user and does not require root. Uninstall it with:
+This installs only for the current user and does not require root. The
+installer displays system information, checks compatibility, detects an
+existing installation, and reports whether an update is available. Run the
+checker without installing anything:
+
+```bash
+curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/install.sh | bash -s -- --check
+```
+
+Run the normal install command again at any time to update to the latest
+release. Uninstall it with:
 
 ```bash
 curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/install.sh | bash -s -- --uninstall
