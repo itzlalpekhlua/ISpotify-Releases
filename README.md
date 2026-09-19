@@ -14,7 +14,25 @@ winget install ISpotify.ISpotify
 
 ## Linux
 
-Download `ISpotify-linux-x86_64`, make it executable, and run it:
+Install the latest release and add iSpotify to your desktop application menu:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/itzlalpekhlua/ISpotify-Releases/main/install.sh | bash
+```
+
+This installs only for the current user and does not require root. Uninstall it with:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/itzlalpekhlua/ISpotify-Releases/main/install.sh | bash -s -- --uninstall
+```
+
+You can also install a specific version:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/itzlalpekhlua/ISpotify-Releases/main/install.sh | ISPOTIFY_VERSION=16.2.0 bash
+```
+
+For a manual installation, download `ISpotify-linux-x86_64`, make it executable, and run it:
 
 ```bash
 chmod +x ISpotify-linux-x86_64
