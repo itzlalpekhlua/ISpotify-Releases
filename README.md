@@ -1,8 +1,8 @@
 ﻿# iSpotify Releases
 
-Official Windows downloads for **iSpotify**, a desktop music search, playback, and download application.
+Official Windows and Linux downloads for **iSpotify**, a desktop music search, playback, and download application.
 
-## Install
+## Windows
 
 The Windows installer is recommended for most users. A standalone portable executable is also attached to each release.
 
@@ -12,12 +12,35 @@ After the WinGet package is accepted, install it with:
 winget install ISpotify.ISpotify
 ```
 
+## Linux
+
+Download `ISpotify-linux-x86_64`, make it executable, and run it:
+
+```bash
+chmod +x ISpotify-linux-x86_64
+./ISpotify-linux-x86_64
+```
+
+The executable supports 64-bit Linux systems with glibc 2.36 or newer. It has been launch-tested on Arch Linux. A normal desktop installation usually has the required GUI libraries. On a minimal Arch installation, install them with:
+
+```bash
+sudo pacman -S --needed mesa libxkbcommon fontconfig libx11 libxcb libpulse alsa-lib dbus
+```
+
 ## Verification
 
-Every release includes SHA-256 checksum files. Compare a download with PowerShell:
+Every release includes SHA-256 checksum files.
+
+Windows PowerShell:
 
 ```powershell
 Get-FileHash .\ISpotify-Setup-x86_64.exe -Algorithm SHA256
+```
+
+Linux:
+
+```bash
+sha256sum -c ISpotify-linux-x86_64.sha256
 ```
 
 ## Privacy and source
@@ -27,4 +50,3 @@ This repository contains release binaries and public documentation only. The app
 ## Support
 
 Report application or installation problems through this repository's issue tracker.
-
