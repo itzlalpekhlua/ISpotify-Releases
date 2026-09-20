@@ -1,80 +1,65 @@
 ﻿# iSpotify Releases
 
-Official Windows and Linux downloads for **iSpotify**, a desktop music search, playback, and download application.
+Official Windows and Linux packages for [iSpotify](https://github.com/itzlalpekhlua/ISpotify), a local desktop music search, playlist, download, and playback application.
 
 ## Windows
 
-The Windows installer is recommended for most users. A standalone portable executable is also attached to each release.
+Download `ISpotify-Setup-x86_64.exe` from the [latest release](https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest). A portable executable is also available.
 
-After the WinGet package is accepted, install it with:
+The WinGet submission is under review. When accepted, the install command will be:
 
 ```powershell
 winget install ISpotify.ISpotify
 ```
 
-## Linux
+## Linux installer
 
-Install the latest release and add iSpotify to your desktop application menu:
+Install the latest release for the current user and register it in the desktop application menu:
 
 ```bash
 curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/install.sh | bash
 ```
 
-This installs only for the current user and does not require root. The
-installer displays system information, checks compatibility, detects an
-existing installation, and reports whether an update is available. Run the
-checker without installing anything:
+Check compatibility and update status without changing the computer:
 
 ```bash
 curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/install.sh | bash -s -- --check
 ```
 
-Run the normal install command again at any time to update to the latest
-release. Uninstall it with:
+Uninstall with:
 
 ```bash
 curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/install.sh | bash -s -- --uninstall
 ```
 
-You can also install a specific version:
+## Debian and Ubuntu
 
 ```bash
-curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/install.sh | ISPOTIFY_VERSION=16.2.0 bash
+curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/ispotify-archive-keyring.gpg \
+  | sudo tee /usr/share/keyrings/ispotify-archive-keyring.gpg >/dev/null
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/ispotify-archive-keyring.gpg] https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download ./" \
+  | sudo tee /etc/apt/sources.list.d/ispotify.list
+sudo apt update
+sudo apt install ispotify
 ```
 
-For a manual installation, download `ISpotify-linux-x86_64`, make it executable, and run it:
+## Arch Linux
 
 ```bash
-chmod +x ISpotify-linux-x86_64
-./ISpotify-linux-x86_64
+curl -fsSL https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download/ispotify-archive-keyring.asc \
+  -o /tmp/ispotify-archive-keyring.asc
+sudo pacman-key --add /tmp/ispotify-archive-keyring.asc
+sudo pacman-key --lsign-key 1D5A2FE0A948FA1944BB17B391C8400E2B908FE7
+printf '\n[ispotify]\nSigLevel = Required DatabaseOptional\nServer = https://github.com/itzlalpekhlua/ISpotify-Releases/releases/latest/download\n' \
+  | sudo tee -a /etc/pacman.conf
+sudo pacman -Syu ispotify
+rm /tmp/ispotify-archive-keyring.asc
 ```
 
-The executable supports 64-bit Linux systems with glibc 2.36 or newer. It has been launch-tested on Arch Linux. A normal desktop installation usually has the required GUI libraries. On a minimal Arch installation, install them with:
-
-```bash
-sudo pacman -S --needed mesa libxkbcommon fontconfig libx11 libxcb libpulse alsa-lib dbus
-```
+Linux packages target x86-64 with glibc 2.36 or newer. The v17 package has been launch-tested in clean Debian 12 and Arch Linux containers.
 
 ## Verification
 
-Every release includes SHA-256 checksum files.
+Standalone executable packages include SHA-256 checksum files. The APT and Arch repositories are signed by key `1D5A2FE0A948FA1944BB17B391C8400E2B908FE7`.
 
-Windows PowerShell:
-
-```powershell
-Get-FileHash .\ISpotify-Setup-x86_64.exe -Algorithm SHA256
-```
-
-Linux:
-
-```bash
-sha256sum -c ISpotify-linux-x86_64.sha256
-```
-
-## Privacy and source
-
-This repository contains release binaries and public documentation only. The application source is maintained separately in a private repository.
-
-## Support
-
-Report application or installation problems through this repository's issue tracker.
+Source code, contribution guidance, and issue templates are in the [public source repository](https://github.com/itzlalpekhlua/ISpotify).

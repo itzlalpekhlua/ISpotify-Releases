@@ -54,7 +54,7 @@ Usage: install.sh [option]
   --uninstall   Remove iSpotify from the current user account
   --help        Show this help
 
-Set ISPOTIFY_VERSION to install a specific release, for example 16.2.0.
+Set ISPOTIFY_VERSION to install a specific release, for example 17.0.0.
 EOF
 }
 
@@ -102,9 +102,9 @@ has_library() {
 
 dependency_hint() {
   if command -v pacman >/dev/null 2>&1; then
-    printf '    %ssudo pacman -S --needed mesa libxkbcommon fontconfig libx11 libxcb libpulse alsa-lib dbus%s\n' "$dim" "$reset"
+    printf '    %ssudo pacman -S --needed libglvnd libxkbcommon fontconfig libx11 libxcb xcb-util-cursor libpulse alsa-lib dbus%s\n' "$dim" "$reset"
   elif command -v apt-get >/dev/null 2>&1; then
-    printf '    %ssudo apt-get install libgl1 libxkbcommon0 libfontconfig1 libx11-6 libxcb1 libpulse0 dbus%s\n' "$dim" "$reset"
+    printf '    %ssudo apt-get install libgl1 libegl1 libxkbcommon0 libfontconfig1 libx11-6 libxcb1 libpulse0 dbus%s\n' "$dim" "$reset"
   elif command -v dnf >/dev/null 2>&1; then
     printf '    %ssudo dnf install mesa-libGL libxkbcommon fontconfig libX11 libxcb pulseaudio-libs dbus%s\n' "$dim" "$reset"
   fi
@@ -203,7 +203,7 @@ compatibility_checks() {
     warn "System memory" "could not determine installed memory"
   fi
 
-  for library in libGL.so.1 libxkbcommon.so.0 libfontconfig.so.1 libX11.so.6 libxcb.so.1; do
+  for library in libGL.so.1 libEGL.so.1 libxkbcommon.so.0 libfontconfig.so.1 libX11.so.6 libxcb.so.1; do
     has_library "$library" || missing_gui=$((missing_gui + 1))
   done
   if (( missing_gui == 0 )); then
@@ -217,6 +217,14 @@ compatibility_checks() {
     pass "Audio support" "PulseAudio or PipeWire support found"
   else
     warn "Audio support" "install PulseAudio or PipeWire for playback"
+  fi
+
+  if command -v deno >/dev/null 2>&1; then
+    pass "JavaScript runtime" "Deno found"
+  elif command -v node >/dev/null 2>&1; then
+    pass "JavaScript runtime" "Node.js found"
+  else
+    warn "JavaScript runtime" "install Deno or Node.js for YouTube challenges"
   fi
 
   if [[ -n "${DISPLAY:-}" || -n "${WAYLAND_DISPLAY:-}" ]]; then
